@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Giỏ hàng</title>
+  <style>
+    .cart-container { max-width: 800px; margin: 50px auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: left; }
+    .checkout-btn { margin-top: 20px; padding: 10px 20px; background: #e84393; color: white; border: none; cursor: pointer; border-radius: 5px; float: right; }
+    .customer-input { margin-top: 20px; padding: 10px; width: 100%; border: 1px solid #ccc; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+<div class="cart-container">
+  <h2>🛒 Giỏ hàng của bạn</h2>
+  <table id="cartTable">
+    <thead>
+      <tr>
+        <th>Sản phẩm</th>
+        <th>Giá</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <input type="text" id="customerNameInput" class="customer-input" placeholder="Nhập tên khách hàng...">
+  <button class="checkout-btn">Thanh toán</button>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+    const tableBody = document.querySelector("#cartTable tbody");
+
+    if (cartData.length === 0) {
+      tableBody.innerHTML = "<tr><td colspan='2'>Giỏ hàng trống.</td></tr>";
+    } else {
+      cartData.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${item.name}</td><td>${item.price}</td>`;
+        tableBody.appendChild(row);
+      });
+    }
+
+    document.querySelector(".checkout-btn").addEventListener("click", () => {
+      const customerName = document.getElementById("customerNameInput").value.trim();
+      if (!customerName) {
+        alert("Vui lòng nhập tên khách hàng trước khi thanh toán.");
+        return;
+      }
+
+      const today = new Date();
+      const dateString = today.toISOString().split('T')[0]; // YYYY-MM-DD
+
+      const products = JSON.parse(localStorage.getItem("products")) || [];
+
+      cartData.forEach(item => {
+        const cleanPrice = parseInt(item.price.replace(/[^\d]/g, ""));
+        products.push({
+          name: item.name,
+          price: cleanPrice,
+          sold: 1,
+          customer: customerName,
+          date: dateString
+        });
+      });
+
+      localStorage.setItem("products", JSON.stringify(products));
+
+      alert("Cảm ơn bạn đã mua hàng! 🎉");
+      localStorage.removeItem("cart");
+
+      window.location.href = "index.html";
+    });
+  });
+</script>
+
+</body>
+</html>

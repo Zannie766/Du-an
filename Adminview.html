@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đăng nhập Quản Lý</title>
+  <style>
+    body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f2f5; }
+    .login-container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); text-align: center; }
+    input[type="password"] { width: 100%; padding: 10px; margin-top: 20px; border-radius: 8px; border: 1px solid #ccc; }
+    button { margin-top: 20px; padding: 10px 20px; border: none; background-color: #007bff; color: white; border-radius: 8px; cursor: pointer; }
+    button:hover { background-color: #0056b3; }
+  </style>
+</head>
+<body>
+
+<div class="login-container">
+  <h2>Đăng nhập vào Trang Quản Lý</h2>
+  <input type="password" id="passwordInput" placeholder="Nhập mật khẩu...">
+  <button onclick="enterPassword()">Đăng nhập</button>
+</div>
+
+<script>
+function enterPassword() {
+  var password = document.getElementById("passwordInput").value;
+  if (password === "123456") {
+    window.location.href = "quanlysanpham.html";
+  } else {
+    alert("Sai mật khẩu! Vui lòng thử lại.");
+  }
+}
+</script>
+
+</body>
+</html>
