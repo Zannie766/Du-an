@@ -118,7 +118,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           
           <div class="product-container">
               <div class="product-item">
-              <?php include 'product.php'; ?>
                   <div class="discount">-10%</div>
                  <img src="1.jpg" alt="Jellycat Bartholomew Bear  ">
                  <div class="product-name">Jellycat Bartholomew Bear </div>
@@ -132,7 +131,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                  
                   <div class="product-item">
                   <div class="discount">-15%</div>
-                  <?php include 'product.php'; ?>
                   <img src="2.jpg" alt="Smudge rabbit ">
                   <div class="product-name">Smudge rabbit</div>
                   <div class="price">$23.99</div>
@@ -145,7 +143,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               
                   <div class="product-item">
                   <div class="discount">-20%</div>
-                  <?php include 'product.php'; ?>
                   <img src="3.jpg" alt="Bashful Christmas Bunny ">
                   <div class="product-name">Bashful Christmas Bunny</div>
                   <div class="price">$35</div>
@@ -157,7 +154,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                    
                   <div class="product-item">
                   <div class="discount">-25%</div>
-                  <?php include 'product.php'; ?>
                   <img src="4.jpg" alt="Mooliet Cow ">
                   <div class="product-name">Mooliet Cow</div>
                   <div class="price">$38</div>
@@ -169,7 +165,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
               <div class="product-item">
                 <div class="discount">-28%</div>
-                <?php include 'product.php'; ?>
                 <img src="5.jpg" alt="Bashful Toffee Puppy ">
                 <div class="product-name">Bashful Toffee Puppy</div>
                 <div class="price">$40</div>
@@ -181,7 +176,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           
                 <div class="product-item">
                 <div class="discount">0%</div>
-                <?php include 'product.php'; ?>
                 <img src="8.png" alt="Fuddles Calf ">
                 <div class="product-name">Fuddles Calf</div>
                 <div class="price">$38</div>
@@ -192,7 +186,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="product-item">
                 <div class="discount">-30%</div>
-                <?php include 'product.php'; ?>
                 <img src="7.jpg" alt="Timmy Turtle ">
                 <div class="product-name">Timmy Turtle</div>
                 <div class="price">$48</div>
@@ -201,7 +194,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <a href="#" class="fas fa-share"></a>
             </div>
             
-            
+            <?php include 'product.php'; ?> 
          
           
 </div>
@@ -350,48 +343,42 @@ function logout() {
   window.location.href = "index.html";
 }
 </script>
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    fetch('products.json')
-      .then(res => res.json())
-      .then(products => {
-        const container = document.querySelector(".product-container");
-        container.innerHTML = ""; // Xoá sản phẩm tĩnh nếu có
-  
-        products.forEach(product => {
-          const html = `
-            <div class="product-item">
-              <div class="discount">${product.discount || "0%"}</div>
-              <img src="${product.image}" alt="${product.name}">
-              <div class="product-name">${product.name}</div>
-              <div class="price">${product.price}</div>
-              <a href="#" class="fas fa-heart"></a>
-              <a href="#" class="cart-btn">Add To Cart</a>
-              <a href="#" class="fas fa-share"></a>
-            </div>
-          `;
-          container.innerHTML += html;
-        });
-      });
-  });
-  </script>
-  
-  <div id="product-list">Đang tải sản phẩm...</div>
+    const welcomeUser = document.getElementById("welcomeUser");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-<script>
-fetch('product.php')
-    .then(response => response.text())
-    .then(data => {
-        document.getElementById('product-list').innerHTML = data;
-    })
-    .catch(error => {
-        document.getElementById('product-list').innerHTML = "Lỗi khi tải sản phẩm.";
-        console.error('Lỗi:', error);
+    if (currentUser) {
+      welcomeUser.innerText = `Xin chào, ${currentUser.fullName}`;
+    } else {
+      welcomeUser.innerText = "Đăng ký";
+    }
+
+    welcomeUser.addEventListener("click", function (e) {
+      e.stopPropagation();
+      dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
     });
+
+    document.addEventListener("click", function () {
+      dropdownMenu.style.display = "none";
+    });
+  });
+
+  function logout() {
+    localStorage.removeItem("currentUser");
+    alert("Đăng xuất thành công!");
+    window.location.href = "index.php";
+  }
 </script>
 
-    </body>
+</body>
+</html>
 
+
+    </body>
+</html>
     
 
 
